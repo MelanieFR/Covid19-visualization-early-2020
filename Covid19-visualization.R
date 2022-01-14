@@ -16,8 +16,8 @@ confirmed_cases_worldwide
 # Draw a line plot of cumulative cases vs. date
 # Label the y-axis
 ggplot(confirmed_cases_worldwide, aes(date, cum_cases)) + 
-geom_line() +
-ylab('Cumulative confirmed cases')
+  geom_line() +
+  ylab('Cumulative confirmed cases')
 
 3. China compared to the rest of the world
 
@@ -46,25 +46,24 @@ who_events <- tribble(
 ) %>%
   mutate(date = as.Date(date))
 
-# Using who_events, add vertical dashed lines with an xintercept at date
-# and text at date, labeled by event, and at 100000 on the y-axis
+# Using who_events, add vertical dashed lines with an xintercept at date and text at date, labeled by event, and at 100000 on the y-axis
 plt_cum_confirmed_cases_china_vs_world + 
   geom_vline(data= who_events, aes(xintercept = date), linetype="dashed") +
   geom_text(data= who_events, aes(x= date, label= event), y=1e5)
   
-  5. Adding a trend line to China
+5. Adding a trend line to China
   # Filter for China, from Feb 15
+
 china_after_feb15 <- confirmed_cases_china_vs_world %>%
   filter(is_china == "China" & date >= "2020-02-15")
 
-# Using china_after_feb15, draw a line plot cum_cases vs. date
-# Add a smooth trend line using linear regression, no error bars
+# Using china_after_feb15, draw a line plot cum_cases vs. date add a smooth trend line using linear regression, no error bars
 ggplot(china_after_feb15, aes(x=date, y=cum_cases)) +
   geom_line() +
   geom_smooth(method='lm', se=FALSE) +
   ylab("Cumulative confirmed cases")
   
-  6. And the rest of the world?
+6. And the rest of the world?
   # Filter confirmed_cases_china_vs_world for not China
 not_china <- confirmed_cases_china_vs_world %>%
 filter(is_china != "China")
@@ -91,7 +90,7 @@ plt_not_china_trend_lin +
 confirmed_cases_by_country <- read_csv("datasets/confirmed_cases_by_country.csv")
 glimpse(confirmed_cases_by_country)
 
-# Group by country, summarize to calculate total cases, find the top 7
+# Group by country, summarize to calculate total cases, find the top 7 
 top_countries_by_total_cases <- confirmed_cases_by_country %>%
   group_by(country) %>%
   summarize(total_cases = max(cum_cases)) %>%
@@ -109,5 +108,5 @@ glimpse(confirmed_cases_top7_outside_china)
 
 # Using confirmed_cases_top7_outside_china, draw a line plot of cum_cases vs. date, colored by country
 ggplot(confirmed_cases_top7_outside_china, aes(x=date, y=cum_cases, group_by = country, color=country))+
-geom_line()+
-ylab('Cumulative confirmed cases')
+  geom_line()+
+  ylab('Cumulative confirmed cases')
